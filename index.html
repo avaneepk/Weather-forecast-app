@@ -13,10 +13,16 @@
         crossorigin="anonymous"></script>
     <script src="javaScript/bar.js" defer></script>
     <link rel="stylesheet" href="css/styles.css">
+    
 </head>
 
 <body>
     <div class="background" id="background">
+        
+        <!-- Background image for the weather app -->
+        <img src ="images/star-bg.png" class="star-bg" alt="Star Background">
+    
+
         <!-- Navbar for  C and F, and storing favourites -->
         <nav class="navbar navbar-expand-lg bg-body-tertiary" id="navbar">
                 <div class="container-fluid">
@@ -89,12 +95,12 @@
 
                 <!-- Weather hourly Section -->
                 <div class="hourly-section">
-                    <button class="left-arrow" id="left-arrow" type="button"> <- </button>
+                    <button class="left-arrow" id="left-arrow" type="button"> < </button>
                     <div class="hourly-wrapper">
                         <div class="hourly-forecast">
                         </div>
                     </div>
-                    <button class="right-arrow" id="right-arrow" type="button"> -> </button>
+                    <button class="right-arrow" id="right-arrow" type="button"> > </button>
                 </div>
 
                 <!-- Week Forecast Section -->
@@ -164,11 +170,13 @@
                     </div>
                     <div class="fav-footer"></div>
                 </div>
-
             </div>
         </div>
     </div>
+    
+    
 
+    
 
      
                

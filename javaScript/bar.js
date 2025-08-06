@@ -12,22 +12,34 @@ document.addEventListener("DOMContentLoaded", async function () {
     const backgroundChange = (isDay, skyCondition) => {
         if (isDay) {
             if (skyCondition.toLowerCase() == "sunny" || skyCondition.toLowerCase() == "clear") {
-                document.querySelector(".background").style.background = "url('images/sunny-sky.jpg')";
+                document.querySelector(".background").style.background = "linear-gradient(to bottom, #219ebc, #8ecae6)";
+                document.querySelector(".weather-icon").src = "images/v2/sunny.png";
             } else if (skyCondition.toLowerCase() == "partly cloudy") {
-                document.querySelector(".background").style.backgroundImage = "url('images/partly-cloudy-sky.jpg')";
+                document.querySelector(".background").style.backgroundImage = "linear-gradient(to bottom, #828fa0ff, #b0c4de, #8ecae6, #219ebc)";
+                document.querySelector(".weather-icon").src = "images/v2/partly_cloudy.png";
             } else if (skyCondition.toLowerCase() == "cloudy") {
-                document.querySelector(".background").style.backgroundImage = "url('images/dark-cloudy-sky.jpg')";
+                document.querySelector(".background").style.backgroundImage = "linear-gradient(to bottom, #5b5e61ff, #b0c4de)";
+                document.querySelector(".weather-icon").src = "images/v2/cloudy.png";
             } else if (skyCondition.toLowerCase() == "rainy" || skyCondition.toLowerCase() == "light rain" || skyCondition.toLowerCase() == "heavy rain") {
-                document.querySelector(".background").style.backgroundImage = "url('images/rainy-sky.jpg')";
+                document.querySelector(".background").style.backgroundImage = "linear-gradient(to bottom, #b0c4de, #8ecae6)";
+                document.querySelector(".weather-icon").src = "images/v2/heavy_rain.png";                
             } else if (skyCondition.toLowerCase() == "snowy") {
-                document.querySelector(".background").style.backgroundImage = "url('images/snowy-sky.jpeg')";
+                document.querySelector(".background").style.backgroundImage = "linear-gradient(to bottom, #ade8f4, #ffffff)";
+                document.querySelector(".weather-icon").src = "images/v2/heavy_snow.png";                
             } else {
                 document.querySelector(".background").style.backgroundImage = "url('images/average-sky.jpg')";
+                document.querySelector(".weather-icon").src = "images/v2/windy.svg";
             }
+            
+            // Hide star background for daytime
+            document.querySelector(".star-bg").style.visibility = "hidden";
 
         } else if (!isDay) {
-            document.querySelector(".background").style.backgroundImage = "url('images/night-sky.jpg')";
+            document.querySelector(".background").style.backgroundImage = "linear-gradient(to bottom, #212d40, #071258ff)";
             document.querySelector(".current-weather").style.color = "#ffffff";
+            document.querySelector(".weather-icon").src = "images/v2/mostly_clear_night.png";
+            // Show star background only for nighttime with night sky image
+            document.querySelector(".star-bg").style.visibility = "visible";
         }
         document.querySelector(".background").style.backgroundSize = "1700px";
     }
@@ -87,7 +99,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             document.querySelector(".temp-info").textContent = weatherdata.current.condition.text;
             document.querySelector(".current-time").textContent = new Date(weatherdata.location.localtime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
             document.querySelector(".current-day").textContent = new Date(weatherdata.location.localtime).toLocaleDateString([], { weekday: 'long' });
-            document.querySelector(".weather-icon").src = weatherdata.current.condition.icon;
+            //document.querySelector(".weather-icon").src = weatherdata.current.condition.icon;
             document.querySelector("#humidity").textContent = parseInt(weatherdata.current.humidity) + "%";
             document.querySelector("#wind-speed").textContent = parseInt(weatherdata.current.wind_kph) + "Km/h";
             document.querySelector("#uv-index").textContent = weatherdata.current.uv;
