@@ -34,18 +34,12 @@
                     </button>
                     <!---->
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    temperature scales
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" id="choose-celcius" href="#">°C</a></li>
-                                    <li><a class="dropdown-item" id="choose-fahrenheit" href="#">°F</a></li>
-                                </ul>
-                            </li>
-                        </ul>
+                        <div class="radio">
+                            <input type="radio" class="radio-input" name="temperature" id="choose-celcius" value="celsius" checked>
+                            <label class="radio-label" for="choose-celcius">°C</label>
+                            <input type="radio" class="radio-input" name="temperature" id="choose-fahrenheit" value="fahrenheit">
+                            <label class="radio-label" for="choose-fahrenheit">°F</label>
+                        </div>
                         <form class="search-menu" role="search" >
                             <input class="search-bar" id="search-bar" type="search" placeholder="Search city" aria-label="Search" />
                             <button class="search-button" id="search-button" type="submit">Search</button>

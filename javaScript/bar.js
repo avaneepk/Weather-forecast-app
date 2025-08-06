@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", async function () {
-    // ...existing code...
  
-    const apiKey = "cb321f672123429ebc5155027250208";
+    const apiKey = "..."; // Replace with your actual API key from WeatherAPI
     const cityInput = document.querySelector(".search-bar");
     
     
@@ -46,12 +45,30 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 
     let celcius = true;
-    document.getElementById("choose-celcius").addEventListener("click", async event => {
-        celcius = true;
+    let currentWeatherData = null; // Store the current weather data
+    
+    document.getElementById("choose-celcius").addEventListener("change", function(event) {
+        if (event.target.checked) {
+            celcius = true;
+            // Update display if weather data is available
+            if (currentWeatherData) {
+                mainSectionUpdate(currentWeatherData);
+                hourlyUpdate(currentWeatherData);
+                weeklyUpdate(currentWeatherData);
+            }
+        }
     });
     
-    document.getElementById("choose-fahrenheit").addEventListener("click", async event => {
-        celcius = false;
+    document.getElementById("choose-fahrenheit").addEventListener("change", function(event) {
+        if (event.target.checked) {
+            celcius = false;
+            // Update display if weather data is available
+            if (currentWeatherData) {
+                mainSectionUpdate(currentWeatherData);
+                hourlyUpdate(currentWeatherData);
+                weeklyUpdate(currentWeatherData);
+            }
+        }
     });
     
 
@@ -248,6 +265,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 const city = target.textContent;
                 const cityWeatherData = await fetchWeatherData(city);
                 if (cityWeatherData) {
+                    currentWeatherData = cityWeatherData; // Store the data
                     mainSectionUpdate(cityWeatherData);
                     backgroundChange(cityWeatherData.current.is_day, cityWeatherData.current.condition.text);
                     hourlyUpdate(cityWeatherData);
@@ -274,6 +292,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                     const locationWeatherData = await fetchWeatherData(`${latitude},${longitude}`);
                     console.log(locationWeatherData);
                     if (locationWeatherData) {
+                        currentWeatherData = locationWeatherData; // Store the data
                         favCity = locationWeatherData.location.name;
                         mainSectionUpdate(locationWeatherData);
                         backgroundChange(locationWeatherData.current.is_day, locationWeatherData.current.condition.text);
@@ -307,6 +326,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             const inputWeatherData = await fetchWeatherData(city);
             console.log(inputWeatherData);
             if (inputWeatherData) {
+                currentWeatherData = inputWeatherData; // Store the data
                 const saveBtn = document.getElementById("save-location-btn");
                 const favIcon = document.getElementById("fav-icon");
                 if (favCities.includes(favCity)) {
