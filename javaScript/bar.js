@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", async function () {
  
-    const apiKey = "..."; // Replace with your actual API key from WeatherAPI
+    const apiKey = ""; // Replace with your actual API key from WeatherAPI
     const cityInput = document.querySelector(".search-bar");
     
     
@@ -47,6 +47,18 @@ document.addEventListener("DOMContentLoaded", async function () {
     let celcius = true;
     let currentWeatherData = null; // Store the current weather data
     
+    // Helper function to update favorite button text based on class
+    const updateFavButtonText = () => {
+        const saveBtn = document.getElementById("save-location-btn");
+        const favTextElement = document.querySelector(".fav-text");
+        
+        if (saveBtn.classList.contains("fav-closed-button")) {
+            favTextElement.textContent = "Favourite";
+        } else if (saveBtn.classList.contains("save-fav-button")) {
+            favTextElement.textContent = "Set as Favourite";
+        }
+    };
+    
     document.getElementById("choose-celcius").addEventListener("change", function(event) {
         if (event.target.checked) {
             celcius = true;
@@ -92,9 +104,10 @@ document.addEventListener("DOMContentLoaded", async function () {
                 document.querySelector(".fav-list").appendChild(favItem);
                 document.querySelector(".fav-list").appendChild(document.createElement("div")).classList.add("fav-footer");
                 console.log(favCities);
-                saveBtn.classList.remove("save-fav-button");
+                saveBtn.classList.remove("save-fav-button");              
                 saveBtn.classList.add("fav-closed-button");
                 favIcon.src = "images/icons-star-filled.png";
+                updateFavButtonText(); // Update button text
             } else {
                 console.log(`Stop! ${favCity} is already in the favourites list`);
             }
@@ -263,9 +276,19 @@ document.addEventListener("DOMContentLoaded", async function () {
             if (target.classList.contains("fav-city")) {
                 e.preventDefault();
                 const city = target.textContent;
+                favCity = city; // Set the current favorite city
                 const cityWeatherData = await fetchWeatherData(city);
                 if (cityWeatherData) {
                     currentWeatherData = cityWeatherData; // Store the data
+                    
+                    // Update button state since this city is definitely in favorites
+                    const saveBtn = document.getElementById("save-location-btn");
+                    const favIcon = document.getElementById("fav-icon");
+                    saveBtn.classList.remove("save-fav-button");
+                    saveBtn.classList.add("fav-closed-button");
+                    favIcon.src = "images/icons-star-filled.png";
+                    updateFavButtonText(); // Update button text
+                    
                     mainSectionUpdate(cityWeatherData);
                     backgroundChange(cityWeatherData.current.is_day, cityWeatherData.current.condition.text);
                     hourlyUpdate(cityWeatherData);
@@ -294,6 +317,21 @@ document.addEventListener("DOMContentLoaded", async function () {
                     if (locationWeatherData) {
                         currentWeatherData = locationWeatherData; // Store the data
                         favCity = locationWeatherData.location.name;
+                        
+                        // Update button state based on whether city is in favorites
+                        const saveBtn = document.getElementById("save-location-btn");
+                        const favIcon = document.getElementById("fav-icon");
+                        if (favCities.includes(favCity)) {
+                            saveBtn.classList.remove("save-fav-button");
+                            saveBtn.classList.add("fav-closed-button");
+                            favIcon.src = "images/icons-star-filled.png";
+                        } else {
+                            saveBtn.classList.remove("fav-closed-button");
+                            saveBtn.classList.add("save-fav-button");
+                            favIcon.src = "images/icons-star-empty.png";
+                        }
+                        updateFavButtonText(); // Update button text
+                        
                         mainSectionUpdate(locationWeatherData);
                         backgroundChange(locationWeatherData.current.is_day, locationWeatherData.current.condition.text);
                         hourlyUpdate(locationWeatherData);
@@ -329,6 +367,8 @@ document.addEventListener("DOMContentLoaded", async function () {
                 currentWeatherData = inputWeatherData; // Store the data
                 const saveBtn = document.getElementById("save-location-btn");
                 const favIcon = document.getElementById("fav-icon");
+                
+                // Check if city is in favorites and update button accordingly
                 if (favCities.includes(favCity)) {
                     saveBtn.classList.remove("save-fav-button");
                     saveBtn.classList.add("fav-closed-button");
@@ -336,7 +376,10 @@ document.addEventListener("DOMContentLoaded", async function () {
                 } else {
                     saveBtn.classList.remove("fav-closed-button");
                     saveBtn.classList.add("save-fav-button");
+                    favIcon.src = "images/icons-star-empty.png";
                 }
+                updateFavButtonText(); // Update button text
+                
                 mainSectionUpdate(inputWeatherData);
                 backgroundChange(inputWeatherData.current.is_day, inputWeatherData.current.condition.text);
                 hourlyUpdate(inputWeatherData); 
